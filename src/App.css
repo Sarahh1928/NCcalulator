@@ -1,0 +1,156 @@
+/* App.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h3 {
+  text-align: center;
+  color: #333;
+}
+
+.data {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+}
+
+label {
+  font-weight: bold;
+  color: #555;
+}
+input[type="number"] {
+  width: 80%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="text"],  select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+tbody,thead {
+  text-align: center;
+}
+
+.machineImage {
+  font-weight: bold;
+  color: #555;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+#machineImage {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+/* Styling for the Material Table */
+.table2 {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.table2 th, .table2 td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.table2 th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+}
+
+.table2 tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table2 tr:hover {
+  background-color: #e8f0fe; /* Light blue for hover effect */
+}
+
+/* Checkbox cell styling */
+.table2 td input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Style the Add Material Button */
+#addrowbutton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 10px auto 20px auto;
+  width: fit-content;
+}
+
+#addrowbutton:hover {
+  background-color: #0056b3;
+}
+
+#submit {
+  background-color: #4CAF50;  /* Green background */
+  color: white;               /* White text */
+  padding: 15px 32px;         /* Padding */
+  text-align: center;         /* Center text */
+  text-decoration: none;      /* No underline */
+  display: inline-block;      /* Inline block display */
+  font-size: 20px;            /* Font size */
+  margin: 4px 2px;            /* Margin */
+  cursor: pointer;           /* Pointer cursor on hover */
+  border-radius: 8px;         /* Rounded corners */
+  border: none;               /* No border */
+  float: right;
+}
