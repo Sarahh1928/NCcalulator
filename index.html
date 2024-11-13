@@ -1,1 +1,1717 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><title>React App</title><script defer="defer" src="/static/js/main.9ce42770.js"></script><link href="/static/css/main.291b6d7e.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC Curve Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        .data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+        }
+
+        .table2 tr:nth-child(even) {
+            background-color: #f3f3f3;
+        }
+
+        .data h3 {
+            grid-column: span 2;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+        }
+
+        .table2,
+        #soundTable,
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .table2 th,
+        .table2 td,
+        #soundTable th,
+        #soundTable td,
+        table th,
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        #addrowbutton {
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #373790;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            float: right;
+        }
+
+        #submitbutton,
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #submitbutton:hover,
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .machineImage {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #555;
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>NC Curve Calculator</h1>
+
+
+        <form id="materialForm" action="/submit" method="post">
+            <table id="table1">
+                <tr>
+                    <td></td>
+                    <td>63</td>
+                    <td> 125</td>
+                    <td> 250</td>
+                    <td> 500</td>
+                    <td> 1000</td>
+                    <td> 2000</td>
+                    <td> 4000</td>
+                    <td> 8000</td>
+                </tr>
+                <tr>
+                    <td>
+                        Sound Power Level outside
+                    </td>
+                    <td><input type="number" id="c163" name="c163" step="0.1"></td>
+                    <td><input type="number" id="c1125" name="c1125" step="0.1"></td>
+                    <td><input type="number" id="c1250" name="c1250" step="0.1"></td>
+                    <td><input type="number" id="c1500" name="c1500" step="0.1"></td>
+                    <td><input type="number" id="c11000" name="c11000" step="0.1"></td>
+                    <td><input type="number" id="c12000" name="c12000" step="0.1"></td>
+                    <td><input type="number" id="c14000" name="c14000" step="0.1"></td>
+                    <td><input type="number" id="c18000" name="c18000" step="0.1"></td>
+                </tr>
+                <tr>
+                    <td>
+                        discharge Sound Power
+                    </td>
+                    <td><input type="number" id="d163" name="d163" step="0.1"></td>
+                    <td><input type="number" id="d1125" name="d1125" step="0.1"></td>
+                    <td><input type="number" id="d1250" name="d1250" step="0.1"></td>
+                    <td><input type="number" id="d1500" name="d1500" step="0.1"></td>
+                    <td><input type="number" id="d11000" name="d11000" step="0.1"></td>
+                    <td><input type="number" id="d12000" name="d12000" step="0.1"></td>
+                    <td><input type="number" id="d14000" name="d14000" step="0.1"></td>
+                    <td><input type="number" id="d18000" name="d18000" step="0.1"></td>
+                </tr>
+                <tr>
+                    <td>
+                        outlet generated Sound Power
+                    </td>
+                    <td><input type="number" id="o163" name="o163" step="0.1"></td>
+                    <td><input type="number" id="o1125" name="o1125" step="0.1"></td>
+                    <td><input type="number" id="o1250" name="o1250" step="0.1"></td>
+                    <td><input type="number" id="o1500" name="o1500" step="0.1"></td>
+                    <td><input type="number" id="o11000" name="o11000" step="0.1"></td>
+                    <td><input type="number" id="o12000" name="o12000" step="0.1"></td>
+                    <td><input type="number" id="o14000" name="o14000" step="0.1"></td>
+                    <td><input type="number" id="o18000" name="o18000" step="0.1"></td>
+                </tr>
+            </table>
+            <div class="data">
+                <h3>Lined Rectangular Duct Dimensions</h3>
+                <div>
+                    <label>Width</label>
+                    <input type="text" name="width" placeholder="in feet">
+                </div>
+                <div>
+                    <label>Length</label>
+                    <input type="text" name="length" placeholder="in feet">
+                </div>
+                <div>
+                    <label>Thickness</label>
+                    <input type="text" id="thickness" name="thickness" placeholder="Default is 1in / 25mm">
+                </div>
+            </div>
+            <div class="data">
+                <h3>Rectangular Tee Loss</h3>
+                <div>
+                    <input type="checkbox" id="TurningVanes" name="TurningVanes">
+                    <label for="TurningVanes">Turning Vanes</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="LinedDuct" name="LinedDuct">
+                    <label for="LinedDuct">Lined Duct</label>
+                </div>
+                <div>
+                    <label>Width</label>
+                    <input type="text" id="ductwidth2" name="ductwidth2" placeholder="in inch">
+                </div>
+            </div>
+
+            <div class="data">
+                <h3>Room Dimensions</h3>
+                <div>
+                    <label>Volume</label>
+                    <input type="text" id="Volume" name="Volume" placeholder="in inch">
+                </div>
+                <div>
+                    <label>Distance</label>
+                    <select id="Distance" name="distance">
+                        <option value="1.5">5.0 ft [1.5 m]</option>
+                        <option value="3">10 ft [3 m]</option>
+                        <option value="4.6">15 ft [4.6 m]</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="data">
+                <h3>Duct Dimensions</h3>
+                <div>
+                    <label>Duct Diameter</label>
+                    <input type="text" id="diameter" name="DuctDiameter" placeholder="in inch">
+                </div>
+                <div>
+                    <label>Duct Width</label>
+                    <input type="text" id="Ductwidth" name="Ductwidth" placeholder="in millimeter">
+                </div>
+                <div>
+                    <label>Duct Height</label>
+                    <input type="text" id="Ductheight" name="Ductheight" placeholder="in millimeter">
+                </div>
+                <div>
+                    <label>Length</label>
+                    <input type="text" id="Ductlength" name="Ductlength" placeholder="in millimeter">
+                </div>
+                <div>
+                    <label>Duct Thickness</label>
+                    <select id="Ductthickness" name="Ductthickness">
+                        <option value="0.7">0.028in / 0.70mm</option>
+                        <option value="0.85">0.034in / 0.85mm</option>
+                        <option value="1">0.044in / 1.00mm</option>
+                        <option value="1.3">0.054in / 1.30mm</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="data">
+                <h3>Branch Power Division</h3>
+                <div>
+                    <label for="branchArea">Branch Cross-Sectional Area (B): </label>
+                    <input type="text" id="branchArea" name="branchArea" placeholder="Enter value for B">
+                </div>
+                <div>
+                    <label for="totalArea">Total Cross-Sectional Area (T): </label>
+                    <input type="text" id="totalArea" name="totalArea" placeholder="Enter value for T">
+                </div>
+            </div>
+
+            <div class="data">
+                <h3>Machine Image</h3>
+                <div>
+                    <label for="machineImage" class="machineImage">Upload Machine Image</label>
+                    <input type="file" id="machineImage" name="machineImage" accept="image/*">
+                </div>
+            </div>
+
+            <div>
+                <table class="table2" id="table2">
+                    <tr>
+                        <th>Select</th>
+                        <th>Material</th>
+                        <th>Density</th>
+                        <th>Thickness</th>
+                        <th>Weight</th>
+                        <th>63</th>
+                        <th>125</th>
+                        <th>250</th>
+                        <th>500</th>
+                        <th>1000</th>
+                        <th>2000</th>
+                        <th>4000</th>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="MineralFiber 20 0.63 1"></td>
+                        <td>Mineral Fiber</td>
+                        <td>20 [lb/ft³] / 300 [kg/m³]</td>
+                        <td>0.63 [in] / 16 [mm]</td>
+                        <td>1 [lb/ft²] / 5 [kg/m²]</td>
+                        <td>13</td>
+                        <td>16</td>
+                        <td>18</td>
+                        <td>20</td>
+                        <td>26</td>
+                        <td>31</td>
+                        <td>36</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="MineralFiber 10 0.63 0.5"></td>
+                        <td>Mineral Fiber</td>
+                        <td>10 [lb/ft³] / 160 [kg/m³]</td>
+                        <td>0.63 [in] / 16 [mm]</td>
+                        <td>0.5 [lb/ft²] / 2.5 [kg/m²]</td>
+                        <td>13</td>
+                        <td>15</td>
+                        <td>17</td>
+                        <td>19</td>
+                        <td>25</td>
+                        <td>30</td>
+                        <td>33</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="GlassFiber 3 0.63 0.1"></td>
+                        <td>Glass Fiber</td>
+                        <td>3 [lb/ft³] / 40 [kg/m³]</td>
+                        <td>0.63 [in] / 16 [mm]</td>
+                        <td>0.1 [lb/ft²] / 0.7 [kg/m²]</td>
+                        <td>13</td>
+                        <td>16</td>
+                        <td>15</td>
+                        <td>17</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>19</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="GlassFiber 4 1.97 0.6"></td>
+                        <td>Glass Fiber</td>
+                        <td>4 [lb/ft³] / 60 [kg/m³]</td>
+                        <td>1.97 [in] / 50 [mm]</td>
+                        <td>0.6 [lb/ft²] / 3 [kg/m²]</td>
+                        <td>14</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>21</td>
+                        <td>25</td>
+                        <td>29</td>
+                        <td>35</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="GlassFiber,TLBacked 4 1.97 0.6"></td>
+                        <td>Glass Fiber/TL Backed</td>
+                        <td>4 [lb/ft³] / 60 [kg/m³]</td>
+                        <td>1.97 [in] / 50 [mm]</td>
+                        <td>0.6 [lb/ft²] / 3 [kg/m²]</td>
+                        <td>14</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>22</td>
+                        <td>27</td>
+                        <td>32</td>
+                        <td>39</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="GypsumBoardTiles 43 0.51 1.8"></td>
+                        <td>Gypsum Board Tiles</td>
+                        <td>43 [lb/ft³] / 690 [kg/m³]</td>
+                        <td>0.51 [in] / 13 [mm]</td>
+                        <td>1.8 [lb/ft²] / 9 [kg/m²]</td>
+                        <td>14</td>
+                        <td>16</td>
+                        <td>18</td>
+                        <td>18</td>
+                        <td>21</td>
+                        <td>22</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="SolidGypsumBoard 43 0.51 1.8"></td>
+                        <td>Solid Gypsum Board</td>
+                        <td>43 [lb/ft³] / 690 [kg/m³]</td>
+                        <td>0.51 [in] / 13 [mm]</td>
+                        <td>1.8 [lb/ft²] / 9 [kg/m²]</td>
+                        <td>18</td>
+                        <td>21</td>
+                        <td>25</td>
+                        <td>25</td>
+                        <td>27</td>
+                        <td>27</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="SolidGypsumBoard 43 0.63 2.2"></td>
+                        <td>Solid Gypsum Board</td>
+                        <td>43 [lb/ft³] / 690 [kg/m³]</td>
+                        <td>0.63 [in] / 16 [mm]</td>
+                        <td>2.2 [lb/ft²] / 11 [kg/m²]</td>
+                        <td>20</td>
+                        <td>23</td>
+                        <td>27</td>
+                        <td>27</td>
+                        <td>29</td>
+                        <td>29</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="DoubleGypsumBoard 45 0.98 3.7"></td>
+                        <td>Double Gypsum Board</td>
+                        <td>45 [lb/ft³] / 700 [kg/m³]</td>
+                        <td>0.98 [in] / 25 [mm]</td>
+                        <td>3.7 [lb/ft²] / 18 [kg/m²]</td>
+                        <td>24</td>
+                        <td>27</td>
+                        <td>31</td>
+                        <td>31</td>
+                        <td>33</td>
+                        <td>33</td>
+                        <td>34</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="DoubleGypsumBoard 43 1.26 4.5"></td>
+                        <td>Double Gypsum Board</td>
+                        <td>43 [lb/ft³] / 690 [kg/m³]</td>
+                        <td>1.26 [in] / 32 [mm]</td>
+                        <td>4.5 [lb/ft²] / 22 [kg/m²]</td>
+                        <td>26</td>
+                        <td>29</td>
+                        <td>33</td>
+                        <td>33</td>
+                        <td>35</td>
+                        <td>35</td>
+                        <td>36</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="material" value="ConcealedSpline 20 0.63 1"></td>
+                        <td>Concealed Spline</td>
+                        <td>20 [lb/ft³] / 300 [kg/m³]</td>
+                        <td>0.63 [in] / 16 [mm]</td>
+                        <td>1 [lb/ft²] / 5 [kg/m²]</td>
+                        <td>20</td>
+                        <td>23</td>
+                        <td>21</td>
+                        <td>24</td>
+                        <td>29</td>
+                        <td>33</td>
+                        <td>34</td>
+                    </tr>
+                </table>
+
+                <button id="addrowbutton" onclick="addRow()">Add Material</button>
+            </div>
+
+            <button type="submit" id="submitbutton" class="submit-btn">Submit</button>
+
+        </form>
+        <table border="1" id="soundTable">
+
+        </table>
+        <h2>NC Rating:</h2>
+        <p id="ncResult">Enter values to see the NC Rating</p>
+        <canvas id="ncChart" width="800" height="400"></canvas>
+
+        <canvas id="myChart" width="400" height="200" style="display:none;"></canvas>
+        <canvas id="myChart2" width="400" height="200" style="display:none;"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var result = [0, 0, 0, 0, 0, 0, 0]
+        function addRow() {
+
+            event.preventDefault(); // Prevent form submission
+            // Get table reference
+            var table = document.getElementById("table2");
+
+            // Insert a new row at the end of the table
+            var newRow = table.insertRow();
+
+            // Add check box cell
+            var selectCell = newRow.insertCell(0);
+            var selectInput = document.createElement("input");
+            selectInput.type = "checkbox";
+            selectInput.name = "material";
+            selectCell.appendChild(selectInput);
+
+            // Add other cells with input fields for the data
+            for (var i = 1; i < 12; i++) {
+                var newCell = newRow.insertCell(i);
+                var input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = "Enter data";
+                newCell.appendChild(input);
+            }
+        }
+        document.getElementById("materialForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent form submission
+
+
+            // Function to generate random colors for datasets
+            function randomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+            let table = document.getElementById('soundTable');
+            table.innerHTML = '';
+            let row = table.insertRow(); // Create a new row
+            row.insertCell(0).innerText = 'Category';  // First cell: Category
+            row.insertCell(1).innerText = '63';  // 63 Hz
+            row.insertCell(2).innerText = '125'; // 125 Hz
+            row.insertCell(3).innerText = '250'; // 250 Hz
+            row.insertCell(4).innerText = '500'; // 500 Hz
+            row.insertCell(5).innerText = '1000'; // 1000 Hz
+            row.insertCell(6).innerText = '2000'; // 2000 Hz
+            row.insertCell(7).innerText = '4000'; // 4000 Hz
+            let Enviro = [4, 2, 1, 0, 0, 0, 0];
+            const soundPower = {
+
+                // c1 values
+                c163: document.getElementById("c163").value,
+                c1125: document.getElementById("c1125").value,
+                c1250: document.getElementById("c1250").value,
+                c1500: document.getElementById("c1500").value,
+                c11000: document.getElementById("c11000").value,
+                c12000: document.getElementById("c12000").value,
+                c14000: document.getElementById("c14000").value,
+                // d1 values
+                d163: document.getElementById("d163").value,
+                d1125: document.getElementById("d1125").value,
+                d1250: document.getElementById("d1250").value,
+                d1500: document.getElementById("d1500").value,
+                d11000: document.getElementById("d11000").value,
+                d12000: document.getElementById("d12000").value,
+                d14000: document.getElementById("d14000").value,
+                // o1 values
+                o163: document.getElementById("o163").value,
+                o1125: document.getElementById("o1125").value,
+                o1250: document.getElementById("o1250").value,
+                o1500: document.getElementById("o1500").value,
+                o11000: document.getElementById("o11000").value,
+                o12000: document.getElementById("o12000").value,
+                o14000: document.getElementById("o14000").value,
+            };
+            let c1 = [soundPower.c163, soundPower.c1125, soundPower.c1250, soundPower.c1500, soundPower.c11000,
+            soundPower.c12000, soundPower.c14000]
+
+            // Prepare the data for the chart
+            const soundPowerLevelOutside = [
+                soundPower.c163, soundPower.c1125, soundPower.c1250,
+                soundPower.c1500, soundPower.c11000, soundPower.c12000,
+                soundPower.c14000, 0 // 8000 is not included
+            ];
+
+            const dischargeSoundPower = [
+                soundPower.d163, soundPower.d1125, soundPower.d1250,
+                soundPower.d1500, soundPower.d11000, soundPower.d12000,
+                soundPower.d14000, 0 // 8000 is not included
+            ];
+
+            const outletGeneratedSoundPower = [
+                soundPower.o163, soundPower.o1125, soundPower.o1250,
+                soundPower.o1500, soundPower.o11000, soundPower.o12000,
+                soundPower.o14000, 0 // 8000 is not included
+            ];
+
+            // Create the chart
+            const ctxx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctxx, {
+                type: 'line',
+                data: {
+                    labels: [63, 125, 250, 500, 1000, 2000, 4000, 8000],
+                    datasets: [
+                        {
+                            label: 'Sound Power Level Outside',
+                            data: soundPowerLevelOutside,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Discharge Sound Power',
+                            data: dischargeSoundPower,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Outlet Generated Sound Power',
+                            data: outletGeneratedSoundPower,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Wait for the chart to render before generating PDF
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Convert the first chart to an image
+            const chartImage1 = myChart.toBase64Image();
+
+            // Create a new row and cells, then add the data
+            function c1function() {
+                let row1 = table.insertRow(); // Create a new row
+                row1.insertCell(0).innerText = 'Radiated and induction inlet Lw (from mfr’s data)';  // First cell: Category
+                row1.insertCell(1).innerText = soundPower.c163;  // 63 Hz
+                row1.insertCell(2).innerText = soundPower.c1125; // 125 Hz
+                row1.insertCell(3).innerText = soundPower.c1250; // 250 Hz
+                row1.insertCell(4).innerText = soundPower.c1500; // 500 Hz
+                row1.insertCell(5).innerText = soundPower.c11000; // 1000 Hz
+                row1.insertCell(6).innerText = soundPower.c12000; // 2000 Hz
+                row1.insertCell(7).innerText = soundPower.c14000; // 4000 Hz
+            }
+            function EnviroAdjustfunction() {
+                let row2 = table.insertRow(); // Create a new row
+                row2.insertCell(0).innerText = 'Environmental Adjustment Factor';  // First cell: Category
+                row2.insertCell(1).innerText = Enviro[0];  // 63 Hz
+                row2.insertCell(2).innerText = Enviro[1]; // 125 Hz
+                row2.insertCell(3).innerText = Enviro[2]; // 250 Hz
+                row2.insertCell(4).innerText = Enviro[3]; // 500 Hz
+                row2.insertCell(5).innerText = Enviro[4]; // 1000 Hz
+                row2.insertCell(6).innerText = Enviro[5]; // 2000 Hz
+                row2.insertCell(7).innerText = Enviro[6]; // 4000 Hz
+            }
+            console.log(c1)
+            let d1 = [soundPower.d163, soundPower.d1125, soundPower.d1250, soundPower.d1500, soundPower.d11000,
+            soundPower.d12000, soundPower.d14000]
+            let o1 = [soundPower.o163, soundPower.o1125, soundPower.o1250, soundPower.o1500, soundPower.o11000,
+            soundPower.o12000, soundPower.o14000]
+            function o1function() {
+                let row1 = table.insertRow(); // Create a new row
+                row1.insertCell(0).innerText = 'Outlet generated Lw ((from mfr’s data)';  // First cell: Category
+                row1.insertCell(1).innerText = soundPower.o163;  // 63 Hz
+                row1.insertCell(2).innerText = soundPower.o1125; // 125 Hz
+                row1.insertCell(3).innerText = soundPower.o1250; // 250 Hz
+                row1.insertCell(4).innerText = soundPower.o1500; // 500 Hz
+                row1.insertCell(5).innerText = soundPower.o11000; // 1000 Hz
+                row1.insertCell(6).innerText = soundPower.o12000; // 2000 Hz
+                row1.insertCell(7).innerText = soundPower.o14000; // 4000 Hz
+            }
+            // Gather selected materials
+            const selectedMaterials = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach((checkbox) => {
+                selectedMaterials.push(checkbox.value);
+            });
+            //p in equations1-4
+            // Pre-stored tile data
+            var table2 = document.getElementById("table2");
+            var rowCount = table2.rows.length;
+            var checkedData = [];
+            var freqSums = {
+
+                '63Hz': 0,
+                '125Hz': 0,
+                '250Hz': 0,
+                '500Hz': 0,
+                '1000Hz': 0,
+                '2000Hz': 0,
+                '4000Hz': 0
+            };
+
+            console.log(rowCount)
+            const datasets = []; // Array to hold datasets for each checked material
+            // Loop over table rows (starting from index 1 to skip the header)
+            for (var i = 1; i < rowCount; i++) {
+
+                var row2 = table2.rows[i];
+                var checkbox = row2.cells[0].querySelector('input[type="checkbox"]');
+
+                // Only process checked rows
+                console.log(row2, checkbox, checkbox.checked)
+                if (checkbox && checkbox.checked) {
+
+                    var rowData = {
+                        material: row2.cells[1].innerText || row2.cells[1].querySelector('input').value,
+                        density: row2.cells[2].innerText || row2.cells[2].querySelector('input').value,
+                        thickness: row2.cells[3].innerText || row2.cells[3].querySelector('input').value,
+                        weight: row2.cells[4].innerText || row2.cells[4].querySelector('input').value,
+                        freqs: [
+                            parseFloat(row2.cells[5].innerText || row2.cells[5].querySelector('input').value),
+                            parseFloat(row2.cells[6].innerText || row2.cells[6].querySelector('input').value),
+                            parseFloat(row2.cells[7].innerText || row2.cells[7].querySelector('input').value),
+                            parseFloat(row2.cells[8].innerText || row2.cells[8].querySelector('input').value),
+                            parseFloat(row2.cells[9].innerText || row2.cells[9].querySelector('input').value),
+                            parseFloat(row2.cells[10].innerText || row2.cells[10].querySelector('input').value),
+                            parseFloat(row2.cells[11].innerText || row2.cells[11].querySelector('input').value)
+                        ]
+                    };
+                    console.log(rowData)
+
+                    // Push checked row data into the checkedData array
+                    checkedData.push(rowData.freqs);
+
+                    // Push dataset for this material
+                    datasets.push({
+                        label: rowData.material,
+                        data: rowData.freqs,
+                        borderColor: randomColor(), // Function to generate random colors for each dataset
+                        fill: false,
+                        tension: 0.1 // Curve tension for smooth lines
+                    });
+                    freqSums['63Hz'] += rowData.freqs[0];
+                    freqSums['125Hz'] += rowData.freqs[1];
+                    freqSums['250Hz'] += rowData.freqs[2];
+                    freqSums['500Hz'] += rowData.freqs[3];
+                    freqSums['1000Hz'] += rowData.freqs[4];
+                    freqSums['2000Hz'] += rowData.freqs[5];
+                    freqSums['4000Hz'] += rowData.freqs[6];
+                    console.log(rowData.freqs[0], rowData.freqs[1], rowData.freqs[2])
+                }
+            }
+
+            let p = [freqSums['63Hz'], freqSums['125Hz'], freqSums['250Hz'], freqSums['500Hz'], freqSums['1000Hz'], freqSums['2000Hz'], freqSums['4000Hz']];
+            let typ = [];
+
+            // Create the second chart
+            const ctxxx = document.getElementById('myChart2').getContext('2d');
+            const myChart2 = new Chart(ctxxx, {
+                type: 'line',
+                data: {
+                    labels: [63, 125, 250, 500, 1000, 2000, 4000], // Frequencies
+                    datasets: datasets // Use the collected datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Wait for the second chart to render before generating PDF
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Convert the second chart to an image
+            const chartImage2 = myChart2.toBase64Image();
+
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            // Add title
+            pdf.setFontSize(20);
+            pdf.text("Frequency Data Report", 10, 10);
+
+            // Add first chart image to PDF
+            const imgWidth = pdf.internal.pageSize.getWidth()-20; // Image width in PDF
+            const imgHeight = 70; // Image height maintaining aspect ratio
+            pdf.addImage(chartImage1, 'PNG', 10, 10, imgWidth, imgHeight);
+            yOffset = imgHeight + 20; // Update yOffset for next image
+
+            // Add second chart image to PDF
+            pdf.addImage(chartImage2, 'PNG', 10, yOffset, imgWidth, imgHeight);
+
+            // Save the PDF
+            pdf.save('frequency_data_report.pdf');
+            console.log(p);
+
+            // checkedData.forEach(material => {
+
+            //     // Split the selected material data into its components
+            //     let eachData = material.split(' ');
+            //     let type = eachData[0];              // "ConcealedSpline"
+            //     let density = parseFloat(eachData[1]);   // 20
+            //     let thickness = parseFloat(eachData[2]); // 0.63
+            //     let weight = parseFloat(eachData[3]);    // 1
+
+            //     // Search for the matching tile in tileData
+            //     let matchedTile = tileData.find(tile =>
+            //         tile.type === type &&
+            //         tile.density === density &&
+            //         tile.thickness === thickness &&
+            //         tile.weight === weight
+            //     );
+
+            //     if (matchedTile) {
+
+            //         typ.push(matchedTile.type);
+            //         // If a match is found, push its octave band frequencies into the array
+            //         console.log(matchedTile.octaveBandMidFreq);
+            //         for (let i = 0; i < p.length; i++) {
+            //             console.log(matchedTile.octaveBandMidFreq[i]);
+            //             p[i] += matchedTile.octaveBandMidFreq[i];
+            //         }
+            //     } else {
+
+            //     }
+            // });
+
+
+            let cell0 = "";
+            cell0 = 'Ceiling/Space Effect (';
+            for (let i = 0; i < typ.length; i++) {
+                cell0 = cell0 + typ[i];
+                if (i != typ.length - 1) {
+                    cell0 = cell0 + ', ';
+                }
+            };
+            cell0 = cell0 + ')';  // First cell: Category
+            function CeilingEffectfunction() {
+                let row3 = table.insertRow(); // Create a new row
+                row3.insertCell(0).innerText = cell0;  // 63 Hz
+                row3.insertCell(1).innerText = p[0];  // 63 Hz
+                row3.insertCell(2).innerText = p[1]; // 125 Hz
+                row3.insertCell(3).innerText = p[2]; // 250 Hz
+                row3.insertCell(4).innerText = p[3]; // 500 Hz
+                row3.insertCell(5).innerText = p[4]; // 1000 Hz
+                row3.insertCell(6).innerText = p[5]; // 2000 Hz
+                row3.insertCell(7).innerText = p[6]; // 4000 Hz
+            }
+            function d1function() {
+
+                let row5 = table.insertRow(); // Create a new row
+                row5.insertCell(0).innerText = 'Terminal discharge Lw (from mfr’s data)';  // First cell: Category
+                row5.insertCell(1).innerText = soundPower.d163;  // 63 Hz
+                row5.insertCell(2).innerText = soundPower.d1125; // 125 Hz
+                row5.insertCell(3).innerText = soundPower.d1250; // 250 Hz
+                row5.insertCell(4).innerText = soundPower.d1500; // 500 Hz
+                row5.insertCell(5).innerText = soundPower.d11000; // 1000 Hz
+                row5.insertCell(6).innerText = soundPower.d12000; // 2000 Hz
+                row5.insertCell(7).innerText = soundPower.d14000; // 4000 Hz
+            }
+
+
+
+
+            //i1
+
+            function calculateInsertionLoss(P, Area, thickness, ductlength) {
+                let CoeffA = [-0.865, -0.582, -0.0121, 0.298, 0.089, 0.0649, 0.15];
+                let CoeffB = [0.723, 0.826, 0.487, 0.513, 0.862, 0.629, 0.166];
+                let CoeffC = [0.375, 0.975, 0.868, 0.317, 0, 0, 0];
+                let alpha = [1.1, 1.7, 8.3, 22.9, 28.1, 30.6, 30.1, 32.0]
+
+                let frequencies = [125, 250, 500, 1000, 2000, 4000, 8000];
+                let IL = [];
+
+                for (let i = 0; i < frequencies.length; i++) {
+                    let A = CoeffA[i];
+                    let B = CoeffB[i];
+                    let C = CoeffC[i];
+                    console.log(P / Area)
+                    // let insertionLoss = (Math.pow(10, A) * Math.pow((P / Area)  , B) * Math.pow(thickness, C))  ;
+                    let insertionLoss = Math.round(Math.pow(10, A) * Math.pow((P / Area), B) * Math.pow(thickness, C)) * 10 / 10;
+                    let ittt = ductlength * insertionLoss;
+                    IL.push(insertionLoss);
+                }
+
+                return IL;
+            }
+
+            let ductwidth = document.getElementById("Ductwidth");
+
+            // Get the selected value
+            let ductwidth2 = ductwidth.value;
+            let ductwidth3 = ductwidth2 / 304.8;
+            console.log(ductwidth2, ductwidth3)
+
+            let Ductheight = document.getElementById("Ductheight");
+
+            // Get the selected value
+            let Ductheight2 = Ductheight.value;
+            let Ductheight3 = Ductheight2 / 304.8;
+
+            let Ductthickness = document.getElementById("Ductthickness");
+
+            // Get the selected value
+            let Ductthickness2 = Ductthickness.value;
+
+            let ductlength = document.getElementById("Ductlength").value;//mm
+            console.log(ductlength)
+            let ai = ductwidth3 * Ductheight3;
+            let wl = parseFloat(ductwidth3) + parseFloat(Ductheight3);
+
+            let areaa = ductwidth3 * Ductheight3;
+            let perimeterr = 2 * wl;
+            let thicknessElement = document.getElementById("thickness").value;//in
+            console.log(thicknessElement)
+            let thickness = thicknessElement.value ? parseFloat(thicknessElement.value) : 1; // Default to 1 if empty
+
+            let i1 = calculateInsertionLoss(perimeterr, areaa, Ductthickness2, ductlength);
+            console.log(i1);
+
+            let i12 = Math.round(Math.log(10, ductlength / 10) * 10) / 10;
+            i12 = [i12, i12, i12, i12, i12, i12, i12];
+            console.log(i12);
+            let i2 = [];
+            i1.forEach((element, index) => {
+                i2.push(Math.round(element + i12));
+            });
+            console.log(i2);
+
+            function i1function() {
+
+                let row7 = table.insertRow(); // Create a new row
+                row7.insertCell(0).innerText = 'lined rectangular duct';  // First cell: Category
+                row7.insertCell(1).innerText = i1[0];  // 63 Hz
+                row7.insertCell(2).innerText = i1[1]; // 125 Hz
+                row7.insertCell(3).innerText = i1[2]; // 250 Hz
+                row7.insertCell(4).innerText = i1[3]; // 500 Hz
+                row7.insertCell(5).innerText = i1[4]; // 1000 Hz
+                row7.insertCell(6).innerText = i1[5]; // 2000 Hz
+                row7.insertCell(7).innerText = i1[6]; // 4000 Hz
+
+                let row8 = table.insertRow(); // Create a new row
+                row8.insertCell(0).innerText = 'inverse square law';  // First cell: Category
+                row8.insertCell(1).innerText = i12[0];  // 63 Hz
+                row8.insertCell(2).innerText = i12[1]; // 125 Hz
+                row8.insertCell(3).innerText = i12[2]; // 250 Hz
+                row8.insertCell(4).innerText = i12[3]; // 500 Hz
+                row8.insertCell(5).innerText = i12[4]; // 1000 Hz
+                row8.insertCell(6).innerText = i12[5]; // 2000 Hz
+                row8.insertCell(7).innerText = i12[6]; // 4000 Hz
+
+                let row9 = table.insertRow(); // Create a new row
+                row9.insertCell(0).innerText = 'lined rectangular duct+inverse square law';  // First cell: Category
+                row9.insertCell(1).innerText = Math.round((i1[0] + i12[0]) * 10) / 10;  // 63 Hz
+                row9.insertCell(2).innerText = Math.round((i1[1] + i12[1]) * 10) / 10; // 125 Hz
+                row9.insertCell(3).innerText = Math.round((i1[2] + i12[2]) * 10) / 10; // 250 Hz
+                row9.insertCell(4).innerText = Math.round((i1[3] + i12[3]) * 10) / 10; // 500 Hz
+                row9.insertCell(5).innerText = Math.round((i1[4] + i12[4]) * 10) / 10; // 1000 Hz
+                row9.insertCell(6).innerText = Math.round((i1[5] + i12[5]) * 10) / 10; // 2000 Hz
+                row9.insertCell(7).innerText = Math.round((i1[6] + i12[6]) * 10) / 10; // 4000 Hz
+            }
+
+
+
+            //I3
+            function calculateLinedFlexibleDuctInsertionLoss(D, L) {
+                let frequencies = [63, 125, 250, 500, 1000, 2000, 4000, 8000];
+
+                // Array to store results
+                let results = [];
+                let C1Coefficients = [1, 2.601, -2.023119, 1.533116, 23.452, 26.15493, 25.06003, 10.03558];
+                let C2Coefficients = [-0.05, -0.125061, 1.276239, 1.407587, -2.844882, -2.885191, -4.0431, -1.104969];
+                let C3Coefficients = [-0.006339, 0.006339, -0.082116, -0.083166, 0.0851754, 0.0884209, 0.1626905, 0.0338121];
+                let C4Coefficients = [0.48, 0.4852413, -0.691433, 1.948206, 0.8380425, 1.702466, 0.2239686, 1.504462];
+                let C5Coefficients = [0.0757873, 0.07757873, 0.4378392, 0.0627173, 0.3254958, 0.1615714, 0.344374, -0.133883];
+                let C6Coefficients = [-0.005221, -0.005221, -0.020816, -0.005056, -0.014685, -0.009956, -0.020039, 0.0043834];
+
+                // Calculate for each frequency
+                for (let i = 0; i < frequencies.length; i++) {
+                    let C1 = C1Coefficients[i];
+                    let C2 = C2Coefficients[i];
+                    let C3 = C3Coefficients[i];
+                    let C4 = C4Coefficients[i];
+                    let C5 = C5Coefficients[i];
+                    let C6 = C6Coefficients[i];
+
+                    let result = Math.round(C1 + C2 * D + C3 * Math.pow(D, 2) + (C4 + C5 * D + C6 * Math.pow(D, 2)) * L);
+
+                    results.push(result);
+                }
+
+                return results;
+            }
+            let diameter = document.getElementById("diameter").value;
+            let ductlength2 = document.getElementById("Ductlength").value;
+            if (diameter === "" || diameter === null) {
+                diameter = perimeterr;
+            }
+            let i3 = calculateLinedFlexibleDuctInsertionLoss(diameter, ductlength2);
+
+
+
+            function i3function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "diameter nonmetallic flexible duct";  // 63 Hz
+                row4.insertCell(1).innerText = i3[0];  // 63 Hz
+                row4.insertCell(2).innerText = i3[1]; // 125 Hz
+                row4.insertCell(3).innerText = i3[2]; // 250 Hz
+                row4.insertCell(4).innerText = i3[3]; // 500 Hz
+                row4.insertCell(5).innerText = i3[4]; // 1000 Hz
+                row4.insertCell(6).innerText = i3[5]; // 2000 Hz
+                row4.insertCell(7).innerText = i3[6]; // 4000 Hz
+            }
+
+
+            // let P = LS - tl + A + Enviro[0];
+            let Induction = - Enviro[0] + c1;
+            let Terminal = - Enviro[0] + d1;
+
+
+            //B for equation 4
+            function findDuctRange(D) {
+                // Define the ranges and corresponding frequencies
+                const ranges = [
+                    { range: [4, 6], frequencies: [9, 9, 9, 9, 10, 12, 15, 21] },
+                    { range: [7, 8], frequencies: [8, 8, 8, 8, 9, 10, 13, 18] },
+                    { range: [9, 9], frequencies: [7, 7, 7, 8, 8, 10, 12, 17] },
+                    { range: [10, 10], frequencies: [7, 7, 7, 7, 8, 9, 11, 16] },
+                    { range: [12, 16], frequencies: [5, 5, 5, 5, 6, 7, 9, 13] },
+                ];
+
+                // Find the appropriate range
+                for (let i = 0; i < ranges.length; i++) {
+                    if (D >= ranges[i].range[0] && D <= ranges[i].range[1]) {
+                        return ranges[i].frequencies;
+                    }
+                }
+
+                return null; // Return null if no range found
+            }
+            let b4 = findDuctRange(perimeterr);
+
+            function b4function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Duct breakout, non-metallic flexible duct";  // 63 Hz
+                row4.insertCell(1).innerText = b4[0];  // 63 Hz
+                row4.insertCell(2).innerText = b4[1]; // 125 Hz
+                row4.insertCell(3).innerText = b4[2]; // 250 Hz
+                row4.insertCell(4).innerText = b4[3]; // 500 Hz
+                row4.insertCell(5).innerText = b4[4]; // 1000 Hz
+                row4.insertCell(6).innerText = b4[5]; // 2000 Hz
+                row4.insertCell(7).innerText = b4[6]; // 4000 Hz
+            }
+
+            //r Function to calculate ERL
+            function calculateERL(D) {
+                const Co = 1127;
+                const Pi = 3.14159;
+                const a1 = 0.7;
+                const a2 = 2;
+                let ERL = [];
+                ERL[0] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 63 * (D / 12)), a2)));
+                ERL[1] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 125 * (D / 12)), a2)));
+                ERL[2] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 250 * (D / 12)), a2)));
+                ERL[3] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 500 * (D / 12)), a2)));
+                ERL[4] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 1000 * (D / 12)), a2)));
+                ERL[5] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 2000 * (D / 12)), a2)));
+                ERL[6] = Math.round(10 * Math.log10(1 + Math.pow((a1 * Co) / (Pi * 4000 * (D / 12)), a2)));
+                console.log(ERL[0]);
+                return ERL;
+            }
+            let r = calculateERL(perimeterr);
+            function rfunction() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "End reflection Factor";  // 63 Hz
+                row4.insertCell(1).innerText = r[0];  // 63 Hz
+                row4.insertCell(2).innerText = r[1]; // 125 Hz
+                row4.insertCell(3).innerText = r[2]; // 250 Hz
+                row4.insertCell(4).innerText = r[3]; // 500 Hz
+                row4.insertCell(5).innerText = r[4]; // 1000 Hz
+                row4.insertCell(6).innerText = r[5]; // 2000 Hz
+                row4.insertCell(7).innerText = r[6]; // 4000 Hz
+            }
+
+
+            // Example usage:
+            let Di = 7; // Enter duct diameter in inches
+            let frequencies2 = findDuctRange(Di); // Find corresponding frequency row
+
+            console.log(frequencies2)
+
+
+
+            //s
+            function calculateS(v, r) {
+                let ERL = [];
+                ERL[0] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(63) - 25);
+                ERL[1] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(125) - 25);
+                ERL[2] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(250) - 25);
+                ERL[3] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(500) - 25);
+                ERL[4] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(1000) - 25);
+                ERL[5] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(2000) - 25);
+                ERL[6] = Math.round(10 * Math.log10(r) + 5 * Math.log10(v) + 3 * Math.log10(4000) - 25);
+                console.log(ERL[0]);
+                return ERL;
+            }
+
+            let Volume = document.getElementById("Volume").value;//in
+            let Distance = document.getElementById("Distance").value;//in
+
+            let s = calculateS(Volume * 3.281 * 3.281 * 3.281, Distance * 3.281);
+            // let s = [10.45207733, 11.34478572, 12.2478757, 13.1509657, 14.0540557, 14.9571457, 15.8602357, 10.45207733]
+            function sfunction() {
+                let row10 = table.insertRow(); // Create a new row
+                row10.insertCell(0).innerText = 'Space Effect';  // First cell: Category
+                row10.insertCell(1).innerText = s[0];  // 63 Hz
+                row10.insertCell(2).innerText = s[1]; // 125 Hz
+                row10.insertCell(3).innerText = s[2]; // 250 Hz
+                row10.insertCell(4).innerText = s[3]; // 500 Hz
+                row10.insertCell(5).innerText = s[4]; // 1000 Hz
+                row10.insertCell(6).innerText = s[5]; // 2000 Hz
+                row10.insertCell(7).innerText = s[6]; // 4000 Hz
+            }
+
+            //b
+            let dimensionData = [
+
+                {
+
+                    width: 300,
+                    height: 300,
+                    thickness: 0.70,
+                    frequencies: [21, 24, 27, 30, 33, 36, 41, 45]
+                },
+                {
+
+                    width: 300,
+                    height: 600,
+                    thickness: 0.70,
+                    frequencies: [19, 22, 25, 28, 31, 35, 41, 45]
+                },
+                {
+
+                    width: 300,
+                    height: 1200,
+                    thickness: 0.85,
+                    frequencies: [19, 22, 25, 28, 31, 37, 43, 45]
+                },
+                {
+                    width: 600,
+                    height: 600,
+                    thickness: 0.85,
+                    frequencies: [20, 23, 26, 29, 32, 37, 43, 45]
+                },
+                {
+                    width: 600,
+                    height: 1200,
+                    thickness: 1.00,
+                    frequencies: [20, 23, 26, 29, 31, 39, 45, 45]
+                },
+                {
+                    width: 1200,
+                    height: 1200,
+                    thickness: 1.30,
+                    frequencies: [21, 24, 27, 30, 35, 41, 45, 45]
+                },
+                {
+
+                    width: 1200,
+                    height: 2400,
+                    thickness: 1.30,
+                    frequencies: [19, 22, 25, 29, 35, 41, 45, 45]
+                }
+            ];
+
+            // Function to get the octave band frequencies based on selected dimensions
+            function getFrequencies(ductwidth, ductheight, ductthickness) {
+                for (let i = 0; i < dimensionData.length; i++) {
+                    let value = dimensionData[i];
+                    if (value.width <= ductwidth && value.height <= ductheight && value.thickness == ductthickness) {
+
+                        console.log(value.frequencies, value);
+                        return value.frequencies; // Return the frequencies array when a match is found
+                    }
+                }
+                return []; // Return an empty array if no match is found
+            }
+            console.log(wl)
+            let ar = 2 * ductlength * wl;
+            console.log(parseFloat(ar) / parseFloat(areaa))
+            let temp = 10 * Math.log(ar / areaa);
+            console.log(areaa, ar, temp)
+            // Example usage:
+            let b23 = getFrequencies(ductwidth2, Ductheight2, Ductthickness2);
+
+            // for (let i = 0; i < frequencies.length; i++) { 
+
+            //     frequencies[i] = frequencies[i] - temp;
+            // }
+            // console.log(frequencies); // Output: [20, 23, 26, 29, 31, 39, 45, 45]
+
+
+
+            function b23function() {
+                let row10 = table.insertRow(); // Create a new row
+                row10.insertCell(0).innerText = 'Duct breakout noise,';  // First cell: Category
+                row10.insertCell(1).innerText = b23[0];  // 63 Hz
+                row10.insertCell(2).innerText = b23[1]; // 125 Hz
+                row10.insertCell(3).innerText = b23[2]; // 250 Hz
+                row10.insertCell(4).innerText = b23[3]; // 500 Hz
+                row10.insertCell(5).innerText = b23[4]; // 1000 Hz
+                row10.insertCell(6).innerText = b23[5]; // 2000 Hz
+                row10.insertCell(7).innerText = b23[6]; // 4000 Hz
+            }
+
+            //T for 3-5
+            // Pre-stored duct data
+            let ductData = {
+                unlinedDuctWithoutTurningVanes: [
+                    {
+                        widthRange: "5:10",
+                        octaveBandMidFreq: [0, 0, 0, 1, 5, 8, 4, 3]
+                    },
+                    {
+                        widthRange: "11:20",
+                        octaveBandMidFreq: [0, 1, 5, 5, 8, 4, 3, 3]
+                    },
+                    {
+                        widthRange: "21:40",
+                        octaveBandMidFreq: [0, 5, 5, 8, 4, 3, 3, 3]
+                    },
+                    {
+                        widthRange: "41:80",
+                        octaveBandMidFreq: [1, 5, 8, 4, 3, 3, 3, 3]
+                    }
+                ],
+                linedDuctWithoutTurningVanes: [
+                    {
+                        widthRange: "5:10",
+                        octaveBandMidFreq: [0, 0, 0, 1, 6, 11, 10, 10]
+                    },
+                    {
+                        widthRange: "11:20",
+                        octaveBandMidFreq: [0, 1, 6, 6, 11, 10, 10, 10]
+                    },
+                    {
+                        widthRange: "21:40",
+                        octaveBandMidFreq: [0, 6, 6, 11, 10, 10, 10, 10]
+                    },
+                    {
+                        widthRange: "41:80",
+                        octaveBandMidFreq: [1, 6, 11, 10, 10, 10, 10, 10]
+                    }
+                ],
+                unlinedDuctWithTurningVanes: [
+                    {
+                        widthRange: "5:10",
+                        octaveBandMidFreq: [0, 0, 0, 1, 4, 6, 4, 4]
+                    },
+                    {
+                        widthRange: "11:20",
+                        octaveBandMidFreq: [0, 1, 4, 6, 4, 4, 4, 4]
+                    },
+                    {
+                        widthRange: "21:40",
+                        octaveBandMidFreq: [0, 4, 6, 6, 4, 4, 4, 4]
+                    },
+                    {
+                        widthRange: "41:80",
+                        octaveBandMidFreq: [1, 4, 6, 6, 4, 4, 4, 4]
+                    }
+                ],
+                linedDuctWithTurningVanes: [
+                    {
+                        widthRange: "5:10",
+                        octaveBandMidFreq: [0, 0, 0, 1, 4, 7, 7, 7]
+                    },
+                    {
+                        widthRange: "11:20",
+                        octaveBandMidFreq: [0, 1, 4, 7, 7, 7, 7, 7]
+                    },
+                    {
+                        widthRange: "21:40",
+                        octaveBandMidFreq: [0, 4, 7, 7, 7, 7, 7, 7]
+                    },
+                    {
+                        widthRange: "41:80",
+                        octaveBandMidFreq: [1, 4, 7, 7, 7, 7, 7, 7]
+                    }
+                ]
+            };
+
+            let turningVanesChecked = document.getElementById('TurningVanes').checked;
+            let linedDuctChecked = document.getElementById('LinedDuct').checked;
+
+            // Get the text input value
+            let ductWidth = document.getElementById('ductwidth2').value;
+
+            let selectedDuctData;
+
+            // Determine the correct dataset based on the checkboxes
+            if (turningVanesChecked && linedDuctChecked) {
+                selectedDuctData = ductData.linedDuctWithTurningVanes;
+            } else if (turningVanesChecked && !linedDuctChecked) {
+                selectedDuctData = ductData.unlinedDuctWithTurningVanes;
+            } else if (!turningVanesChecked && linedDuctChecked) {
+                selectedDuctData = ductData.linedDuctWithoutTurningVanes;
+            } else {
+                selectedDuctData = ductData.unlinedDuctWithoutTurningVanes;
+            }
+
+            // Find the correct octaveBandMidFreq based on duct width range
+            let octaveBandMidFreq = null;
+
+            for (let duct of selectedDuctData) {
+                let [minWidth, maxWidth] = duct.widthRange.split(':').map(Number);
+                if (ductWidth >= minWidth && ductWidth <= maxWidth) {
+                    octaveBandMidFreq = duct.octaveBandMidFreq;
+                    break;
+                }
+            }
+            let T = octaveBandMidFreq;
+            console.log(T[0]);
+            function Tfunction() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Rectangular Tee attenuation entering branch duct";  // 63 Hz
+                row4.insertCell(1).innerText = T[0];  // 63 Hz
+                row4.insertCell(2).innerText = T[1]; // 125 Hz
+                row4.insertCell(3).innerText = T[2]; // 250 Hz
+                row4.insertCell(4).innerText = T[3]; // 500 Hz
+                row4.insertCell(5).innerText = T[4]; // 1000 Hz
+                row4.insertCell(6).innerText = T[5]; // 2000 Hz
+                row4.insertCell(7).innerText = T[6]; // 4000 Hz
+            }
+
+            //f
+            let branchArea = parseFloat(document.getElementById('branchArea').value);
+            let totalArea = parseFloat(document.getElementById('totalArea').value);
+            let f = 10 * Math.abs(Math.round(Math.log10(branchArea / totalArea) * 10) / 10);//here B/T=0.100 for test
+            function Ffunction() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Branch power division";  // 63 Hz
+                row4.insertCell(1).innerText = f;  // 63 Hz
+                row4.insertCell(2).innerText = f; // 125 Hz
+                row4.insertCell(3).innerText = f; // 250 Hz
+                row4.insertCell(4).innerText = f; // 500 Hz
+                row4.insertCell(5).innerText = f; // 1000 Hz
+                row4.insertCell(6).innerText = f; // 2000 Hz
+                row4.insertCell(7).innerText = f; // 4000 Hz
+            }
+            console.log(f);
+
+            let i2row = [0, 0, 0, 0, 0, 0, 0];
+
+            function i2function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "unlined rectangular duct";  // 63 Hz
+                row4.insertCell(1).innerText = 0;  // 63 Hz
+                row4.insertCell(2).innerText = 0; // 125 Hz
+                row4.insertCell(3).innerText = 0; // 250 Hz
+                row4.insertCell(4).innerText = 0; // 500 Hz
+                row4.insertCell(5).innerText = 0; // 1000 Hz
+                row4.insertCell(6).innerText = 0; // 2000 Hz
+                row4.insertCell(7).innerText = 0; // 4000 Hz
+            }
+            // Example of accessing duct data
+            // console.log(ductData.unlinedDuct[0].widthRange); // Output: 5-10 [100 - 125]
+            // console.log(ductData.linedDuct[1].octaveBandMidFreq); // Output: [0, 1, 6, 6, 11, 10, 10, 10]
+            // console.log(ductData.insertionLossUnlined[2].insertionLoss); // Output: [0, 4, 6, 6, 4, 4, 4, 4]
+            // console.log(ductData.insertionLossLined[3].insertionLoss); // Output: [1, 4, 7, 7, 7, 7, 7, 7]
+            let Equation1 = [0, 0, 0, 0, 0, 0, 0];
+            let Equation2 = [0, 0, 0, 0, 0, 0, 0];
+            let Equation3 = [0, 0, 0, 0, 0, 0, 0];
+            let Equation4 = [0, 0, 0, 0, 0, 0, 0];
+            let Equation5 = [0, 0, 0, 0, 0, 0, 0];
+            let Equation6 = [0, 0, 0, 0, 0, 0, 0];
+            function Equation1function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Radiated and Induction Inlet";  // 63 Hz
+                for (let i = 0; i < 7; i++) {
+                    let c1Val = c1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+
+                    let pVal = p[i] ?? 0;
+
+                    let temp = Math.round(c1Val - EnviroVal - pVal);
+                    Equation1[i] = temp < 0 ? '-' : temp;  // Calculate the value
+                    row4.insertCell(i + 1).innerText = temp; // Insert the value into the row
+                }
+            }
+
+            function Equation2function() {
+                let row11 = table.insertRow(); // Create a new row
+
+                row11.insertCell(0).innerText = 'Duct Breakout Path';  // First cell: Category
+                for (let i = 0; i < 7; i++) {
+                    let d1Val = d1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+                    let i1Val = i1[i] ?? 0;
+                    let i12Val = i12[i] ?? 0;
+                    let b23Val = b23[i] ?? 0;
+                    let pVal = p[i] ?? 0;
+
+                    let temp = Math.round(d1Val - EnviroVal - Math.round((i1Val + i12Val) * 10) / 10 - b23Val - pVal);
+                    Equation2[i] = temp < 0 ? '-' : temp;
+                    // row11.insertCell(i + 1).innerText = temp < 0 ? '*' : temp; // Insert the value into the row
+                    row11.insertCell(i + 1).innerText = temp; // Insert the value into the row
+                }
+            }
+
+            function Equation3function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = 'Distribution Duct Breakout';  // First cell: Category
+
+                for (let i = 0; i < 7; i++) {
+                    let d1Val = d1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+                    let i1Val = i1[i] ?? 0;
+                    let i12Val = i12[i] ?? 0;
+                    let TVal = T[i] ?? 0;
+                    let fVal = f ?? 0;
+                    let i2rowVal = i2row[i] ?? 0;
+                    let b23Val = b23[i] ?? 0;
+                    let pVal = p[i] ?? 0;
+
+                    let temp = Math.round(10 * (d1Val - EnviroVal - Math.round((i1Val + i12Val) * 10) / 10 - TVal - fVal - i2rowVal - b23Val - pVal)) / 10;
+                    Equation3[i] = temp < 0 ? '-' : temp;
+                    row4.insertCell(i + 1).innerText = temp;
+                }
+            }
+
+            function Equation4function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = 'Flexible Duct Breakout Path';  // First cell: Category
+
+                for (let i = 0; i < 7; i++) {
+                    let d1Val = d1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+                    let i1Val = i1[i] ?? 0;
+                    let i12Val = i12[i] ?? 0;
+                    let TVal = T[i] ?? 0;
+                    let fVal = f ?? 0;
+                    let i2rowVal = i2row[i] ?? 0;
+                    let i3Val = i3[i] ?? 0;
+                    let b4Val = b4[i] ?? 0;
+                    let pVal = p[i] ?? 0;
+
+                    let temp = Math.round(10 * (d1Val - EnviroVal - Math.round((i1Val + i12Val) * 10) / 10 - TVal - fVal - i2rowVal - i3Val - b4Val - pVal)) / 10;
+                    Equation4[i] = temp < 0 ? '-' : temp;
+                    row4.insertCell(i + 1).innerText = temp;
+                }
+            }
+
+            function Equation5function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = 'Discharge Path';  // First cell: Category
+
+                for (let i = 0; i < 7; i++) {
+                    let d1Val = d1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+                    let i1Val = i1[i] ?? 0;
+                    let i12Val = i12[i] ?? 0;
+                    let TVal = T[i] ?? 0;
+                    let fVal = f ?? 0;
+                    let i2rowVal = i2row[i] ?? 0;
+                    let i3Val = i3[i] ?? 0;
+                    let rVal = r[i] ?? 0;
+                    let sVal = s[i] ?? 0;
+
+                    let temp = Math.round(10 * (d1Val - EnviroVal - Math.round((i1Val + i12Val) * 10) / 10 - TVal - fVal - i2rowVal - i3Val - rVal - sVal)) / 10;
+                    Equation5[i] = temp < 0 ? '-' : temp;
+                    row4.insertCell(i + 1).innerText = temp;
+                }
+            }
+
+            function Equation6function() {
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Outlet #1 Generated";  // 63 Hz
+
+                for (let i = 0; i < 7; i++) {
+                    let o1Val = o1[i] ?? 0;
+                    let EnviroVal = Enviro[i] ?? 0;
+                    let sVal = s[i] ?? 0;
+
+                    let temp = o1Val - EnviroVal - sVal;
+                    Equation6[i] = temp < 0 ? '-' : temp;
+                    row4.insertCell(i + 1).innerText = temp;
+                }
+            }
+
+            c1function();
+            EnviroAdjustfunction();
+            CeilingEffectfunction();
+            Equation1function();
+            d1function();
+            EnviroAdjustfunction();
+            i1function();
+            b23function();
+            CeilingEffectfunction();
+            Equation2function();
+            d1function();
+            EnviroAdjustfunction();
+            i1function();
+            Tfunction();
+            Ffunction();
+            i2function();
+            b23function();
+            CeilingEffectfunction();
+            Equation3function();
+            d1function();
+            EnviroAdjustfunction();
+            i1function();
+            Tfunction();
+            Ffunction();
+            i2function();
+            i3function();
+            b4function();
+            CeilingEffectfunction();
+            Equation4function();
+            d1function();
+            EnviroAdjustfunction();
+            i1function();
+            Tfunction();
+            Ffunction();
+            i2function();
+            i3function();
+            rfunction();
+            sfunction();
+            Equation5function();
+            o1function();
+            EnviroAdjustfunction();
+            sfunction();
+            Equation6function();
+
+            const logSums = [];
+
+            // Calculate the logarithmic addition for each index
+            console.log(Equation1, Equation1[0]);
+            console.log(Equation2);
+            console.log(Equation3);
+            console.log(Equation4);
+            console.log(Equation5);
+            console.log(Equation6);
+            for (let i = 0; i < 7; i++) {
+
+                let total = 0; // Initialize total to zero
+
+                // Calculate total conditionally based on whether each equation is valid
+                if (Equation1[i] !== "-") {
+
+                    total += 10 * Math.log10(Equation1[i]);
+                }
+
+                if (Equation2[i] !== "-") {
+                    total += 10 * Math.log10(Equation2[i]);
+                }
+
+                if (Equation3[i] !== "-") {
+                    total += 10 * Math.log10(Equation3[i]);
+                }
+
+                if (Equation4[i] !== "-") {
+                    total += 10 * Math.log10(Equation4[i]);
+                }
+
+                if (Equation5[i] !== "-") {
+                    total += 10 * Math.log10(Equation5[i]);
+                }
+
+                if (Equation6[i] !== "-") {
+                    total += 10 * Math.log10(Equation6[i]);
+                }
+                console.log(Equation1[i],Equation2[i],Equation3[i],Equation4[i],Equation5[i],Equation6[i], total)
+
+                // Log the total only if it was calculated (i.e., not all inputs were "-")
+                console.log(total);
+                logSums.push(total);
+            }
+
+            console.log(logSums);
+            function totalfunction() {
+
+                let row4 = table.insertRow(); // Create a new row
+                row4.insertCell(0).innerText = "Total";  // 63 Hz
+                row4.insertCell(1).innerText = result[0] = Math.round(logSums[0]);  // 63 Hz
+                row4.insertCell(2).innerText = result[1] = Math.round(logSums[1]); // 125 Hz
+                row4.insertCell(3).innerText = result[2] = Math.round(logSums[2]); // 250 Hz
+                row4.insertCell(4).innerText = result[3] = Math.round(logSums[3]); // 500 Hz
+                row4.insertCell(5).innerText = result[4] = Math.round(logSums[4]); // 1000 Hz
+                row4.insertCell(6).innerText = result[5] = Math.round(logSums[5]); // 2000 Hz
+                row4.insertCell(7).innerText = result[6] = Math.round(logSums[6]); // 4000 Hz
+            }
+            totalfunction();
+
+
+
+
+            let chart = null;
+            // Get input values from form
+            const octave63 = result[0];
+            const octave125 = result[1];
+            const octave250 = result[2];
+            const octave500 = result[3];
+            const octave1000 = result[4];
+            const octave2000 = result[5];
+            const octave4000 = result[6];
+            const octave8000 = 0;
+
+            const userSPLs = [octave63, octave125, octave250, octave500, octave1000, octave2000, octave4000, octave8000];
+
+            // NC curve thresholds for each band
+            const ncCurves = {
+                'NC-25': [47, 36, 29, 22, 17, 14, 12, 11],
+                'NC-30': [54, 44, 37, 31, 27, 24, 22, 21],
+                'NC-35': [57, 48, 41, 35, 31, 29, 28, 27],
+                'NC-40': [60, 52, 45, 40, 36, 34, 33, 32],
+                'NC-45': [67, 60, 54, 49, 46, 44, 43, 42],
+            };
+
+            const labels = ['63 Hz', '125 Hz', '250 Hz', '500 Hz', '1000 Hz', '2000 Hz', '4000 Hz', '8000 Hz'];
+
+            // Calculate NC rating
+            function calculateNCRating() {
+                let finalNC = 'NC-25'; // Default lowest rating
+
+                for (const ncLevel in ncCurves) {
+                    const curve = ncCurves[ncLevel];
+                    for (let i = 0; i < userSPLs.length; i++) {
+                        if (userSPLs[i] > curve[i]) {
+                            finalNC = ncLevel;  // Updates to the highest curve exceeded
+                            break;
+                        }
+                    }
+                }
+                return finalNC;
+            }
+
+            const ncRating = calculateNCRating();
+            document.getElementById('ncResult').innerText = `Your room's NC Rating is: ${ncRating}`;
+
+            // Create a chart with NC curves and user data
+            const ctx = document.getElementById('ncChart').getContext('2d');
+
+            if (chart) {
+
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'User SPL',
+                            data: userSPLs,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'NC-25',
+                            data: ncCurves['NC-25'],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'NC-30',
+                            data: ncCurves['NC-30'],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'NC-35',
+                            data: ncCurves['NC-35'],
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'NC-40',
+                            data: ncCurves['NC-40'],
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'NC-45',
+                            data: ncCurves['NC-45'],
+                            borderColor: 'rgba(0, 204, 102, 1)',
+                            backgroundColor: 'rgba(0, 204, 102, 0.2)',
+                            fill: false,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Sound Pressure Level (dB)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Frequency (Hz)'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
